@@ -10,13 +10,13 @@ const initState = Immutable.fromJS({
 });
 
 export default function columns(state = initState, action) {
-  const {type,filter,val,path}=action;
+  const {type,filter,path}=action;
 
   switch (type) {
     case ACTION_TYPES.ADD_FILTER:
       return state.updateIn(path, array=>array.unshift(Immutable.fromJS(filter)));
     case ACTION_TYPES.UPDATE_FILTER:
-      return state.setIn(path, val);
+      return state.setIn(path, filter);
     case ACTION_TYPES.DELETE_FILTER:
       return state.deleteIn(path);
 

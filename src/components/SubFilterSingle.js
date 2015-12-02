@@ -5,7 +5,8 @@ import Filter from './Filter';
 export default class RDSFilterSingle extends Component {
   static propTypes = {
     filter: PropTypes.object,
-    filterActions: PropTypes.object,
+    updateFilter: PropTypes.func,
+    deleteFilter: PropTypes.func,
     path: PropTypes.array,
     isTop: PropTypes.bool
   };
@@ -13,19 +14,25 @@ export default class RDSFilterSingle extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onDeleteFilter = this.onDeleteFilter.bind(this);
   }
 
   shouldComponentUpdate = shouldPureComponentUpdate;
 
-
   handleInputChange(name, e) {
     const newVal = e.target.value;
-    const { path, filterActions } = this.props;
-    filterActions.updateFilter([...path, name], newVal);
+    const { filter, updateFilter } = this.props;
+    const newFilter = filter.set(name, newVal);
+    updateFilter(newFilter);
+  }
+
+  onDeleteFilter() {
+    const { deleteFilter } = this.props;
+    deleteFilter();
   }
 
   render() {
-    const {  filter, filterActions, path } = this.props;
+    const {  filter, filterActions } = this.props;
     return (
       <div style={{margin:'0 0 0 20px'}}>
         <input
@@ -45,7 +52,7 @@ export default class RDSFilterSingle extends Component {
           value={filter.get('value')}
           onChange={this.handleInputChange.bind(null,'value')}/>
         <button
-          onClick={filterActions.deleteFilter.bind(null,path)}>
+          onClick={this.onDeleteFilter}>
           -
         </button>
       </div>

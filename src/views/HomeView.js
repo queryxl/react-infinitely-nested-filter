@@ -14,8 +14,14 @@ class HomeView extends React.Component {
 
   render() {
     const {filter, filterActions}=this.props;
+
     return (
-      <Filter isTop={true} filter={filter} path={[]} filterActions={filterActions}/>
+      <Filter isTop={true}
+              filter={filter}
+              addFilter={filterActions.addFilter}
+              addSubFilter={filterActions.addSubFilter}
+              updateFilter={filterActions.updateFilter}
+              deleteFilter={filterActions.deleteFilter}/>
     );
   }
 }
